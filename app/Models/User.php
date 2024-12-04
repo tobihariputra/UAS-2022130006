@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -32,7 +33,17 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    // Fungsi untuk memeriksa apakah pengguna adalah admin
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 
+    // Fungsi untuk memeriksa apakah pengguna adalah user biasa
+    public function isUser()
+    {
+        return $this->role === 'user';
+    }
     /**
      * Get the attributes that should be cast.
      *
