@@ -28,7 +28,7 @@
 
         main {
             flex: 1;
-            margin-bottom: 150px;
+            margin-bottom: 100px;
             padding: 0;
             box-sizing: border-box;
         }
@@ -140,10 +140,17 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('pemesanans.users.create')}}">Pesan Tiket</a>
+                            <a class="nav-link" href="{{ route('pemesanans.users.create') }}">Pesan Tiket</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#footer">Kontak Kami</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('privacy.policy') }}">Privacy Policy</a>
+                        </li>
+                        <li class="nav-item"></li>
+                        <a class="nav-link" href="{{ route('panduan.pemesanan') }}">Panduan
+                            Pemesanan</a>
                         </li>
                     </ul>
 
@@ -204,6 +211,8 @@
                         <h5 class="fw-bold">MENU</h5>
                         <ul class="list-unstyled text-small mt-5">
                             <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
+                            <li><a class="text-white" href="{{ route('pemesanans.users.create') }}" target="_blank">Pesan Tiket</a>
+                            </li>
                             <li><a class="text-white" href="{{ route('panduan.pemesanan') }}" target="_blank">Panduan
                                     Pemesanan</a></li>
 

@@ -116,6 +116,41 @@
         </div>
     </div>
 
+    <!-- Section: Slider -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">RASAKAN PENGALAMAN KESERUANNYA NAIK KERETA BERSAMA KAMI</h2>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for ($i = 1; $i <= 5; $i++)
+                    <div class="carousel-item {{ $i == 1 ? 'active' : '' }}">
+                        <img src="{{ asset('images/slider' . $i . '.jpg') }}" class="d-block mx-auto"
+                            style="max-height: 70%; max-width: 70%" alt="Slider {{ $i }}">
+                    </div>
+                @endfor
+            </div>
+            <!-- Tombol panah kiri dan kanan -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly"
+                data-bs-slide="prev" style="background-color: red;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly"
+                data-bs-slide="next" style="background-color: red;">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#carouselExampleSlidesOnly').carousel({
+                interval: 1,
+            });
+        });
+    </script>
+
+
     <!-- Section: Script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

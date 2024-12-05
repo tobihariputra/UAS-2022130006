@@ -28,6 +28,15 @@
 
             <button type="submit" class="btn btn-success btn-block mt-3">Konfirmasi Pembayaran</button>
         </form>
-
     </div>
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('success-alert');
+            if (alert) {
+                alert.style.transition = 'opacity 0.9s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 350);
+            }
+        }, 5000);
+    </script>
 @endsection

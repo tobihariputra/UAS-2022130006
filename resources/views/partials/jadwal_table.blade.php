@@ -33,7 +33,7 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Rp {{ number_format($jadwal->kereta->harga, 0, ',', '.') }}</h6>
-                                <a href="" class="btn btn-warning btn-sm">Pilih</a>
+                                <a href="{{route('pemesanans.users.create')}}" class="btn btn-warning btn-sm">Pilih</a>
                             </div>
                         </div>
                     </div>

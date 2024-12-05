@@ -15,7 +15,7 @@
                     <li class="list-group-item"><strong>Jumlah Tiket:</strong> 2 Tiket</li>
                     <li class="list-group-item"><strong>Jadwal:</strong> Kereta X | Rute Y | 12:30 WIB</li>
                     <li class="list-group-item"><strong>Total Harga:</strong> Rp 500.000</li>
-                    <li class="list-group-item"><strong>Status Pembayaran:</strong> Belum Dibayar</li>
+                    <li class="list-group-item"><strong>Status Pembayaran:</strong> Terbayar</li>
                 </ul>
             </div>
         </div>
