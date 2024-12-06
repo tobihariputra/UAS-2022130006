@@ -2,7 +2,6 @@
 
 @section('content')
     <style>
-        /* General Styling */
         .content h2 {
             font-weight: bold;
             margin-bottom: 15px;
@@ -18,7 +17,6 @@
             margin-top: 10px;
         }
 
-        /* Card Styling */
         .card {
             border: none;
             border-radius: 15px;
@@ -29,7 +27,6 @@
             padding: 30px;
         }
 
-        /* Section Styling */
         section {
             margin-bottom: 30px;
             text-align: justify;
@@ -45,7 +42,6 @@
             color: #e74c3c;
         }
 
-        /* Responsive Styling */
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.5rem;
@@ -86,7 +82,7 @@
     <div id="privacy-policy" class="container" style="margin-top: 8%; padding: 20px;">
         <div class="card">
             <div class="card-body">
-                <h1 class="text-center font-weight-bold">KEBIJAKAN DAN PRIVASI</h1>
+                <h1 class="text-center fw-bold">KEBIJAKAN DAN PRIVASI</h1>
                 <p class="text-center text-muted mb-5">Sistem Pemesanan Tiket Kereta</p>
 
                 <div class="content">

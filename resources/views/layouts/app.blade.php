@@ -22,7 +22,7 @@
         body {
             height: 100%;
             margin: 0;
-            font-family: 'poppins', sans-serif;
+            font-family: 'Nunito', sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -64,7 +64,7 @@
             color: #e63946 !important;
             background-color: #ffffff !important;
             border-radius: 5px;
-            padding: 5px 10px;
+            padding: 10px 10px;
         }
 
         .navbar-toggler-icon {
@@ -116,6 +116,11 @@
             footer {
                 font-size: 12px;
             }
+
+            .card {
+                width: 100%;
+                margin-top: 100px;
+            }
         }
 
         .navbar-nav .nav-item i {
@@ -129,7 +134,7 @@
         <nav
             class="navbar navbar-expand-md navbar-custom {{ Request::routeIs('login', 'register', 'password.request', 'password.email', 'password.reset', 'password.confirm', 'password.update', 'password.change', 'privacy.policy', 'panduan.pemesanan', 'pemesanans.users.create', 'pemesanans.users.payment', 'pemesanans.users.invoice') ? 'navbar-login' : '' }} sticky-top py-5 shadow mb-5">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand fw-bold" href="{{ url('/') }}">
                     {{ config('app.', 'Sistem Pemesanan Tiket Kereta') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -201,7 +206,8 @@
                 <div class="row d-flex">
                     <div class="col-12 col-md-3 mb-4">
                         <h5 class="fw-bold">SISTEM PEMESANAN TIKET KERETA</h5>
-                        <p class="text-white text-left mt-5">
+                        <hr style="background-color: #FFF;height: 5px;">
+                        <p class="text-white text-left mt-4">
                             Layanan booking tiket kereta api online. Beli tiket kereta jadi cepat, nyaman dan mudah.
                             Dibuat oleh Tobi Hariputra
                         </p>
@@ -209,9 +215,11 @@
 
                     <div class="col-12 col-md-3 mb-4">
                         <h5 class="fw-bold">MENU</h5>
-                        <ul class="list-unstyled text-small mt-5">
+                        <hr style="background-color: #FFF;height: 5px;">
+                        <ul class="list-unstyled text-small mt-4">
                             <li><a class="text-white" href="{{ url('/') }}">Home</a></li>
-                            <li><a class="text-white" href="{{ route('pemesanans.users.create') }}" target="_blank">Pesan Tiket</a>
+                            <li><a class="text-white" href="{{ route('pemesanans.users.create') }}"
+                                    target="_blank">Pesan Tiket</a>
                             </li>
                             <li><a class="text-white" href="{{ route('panduan.pemesanan') }}" target="_blank">Panduan
                                     Pemesanan</a></li>
@@ -228,8 +236,7 @@
                         <p class="text-left mt-4">
                             <b>Telepon :</b> 0889-888-888(EA)<br>
                             Layanan pelanggan tersedia pukul 08:00-21:00<br>
-                            <b>Email:</b> support@likmi.com<br>
-                            <b>Tobi Hariputra</b><br>
+                            <b>Email:</b> support@likmi.com
                         </p>
                     </div>
                     <div class="col-12 col-md-3 mb-4">
@@ -256,10 +263,13 @@
                     </div>
                 </div>
             </div>
+            <hr style="background-color: #FFF;height: 3px;">
+
             <div id="copyright">
                 <div class="container text-muted fw-bold" align="center"
                     style=" padding: 10px; color: white ! important; font-weight: 500 ! important;">
-                    © 2024 Sistem Pemesanan Tiket Kereta, Tobi Hariputra.
+                    Copyright © 2024 Sistem Pemesanan Tiket Kereta, All rights reserved. <br>Built by <a
+                        href="https://github.com/tobihariputra">Tobi Hariputra</a>
                 </div>
             </div>
         </footer>

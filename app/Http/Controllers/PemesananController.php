@@ -17,7 +17,11 @@ class PemesananController extends Controller
 {
     public function userinvoice()
     {
-        return view('pemesanans.users_invoice');
+        $pemesanans = Pemesanan::where('user_id', Auth::id())->get();
+        $latestPemesanan = $pemesanans->last();  // Get the last pemesanan
+        $barcode = base64_encode((new BarcodeGeneratorPNG())->getBarcode($latestPemesanan->kode_pemesanan, BarcodeGeneratorPNG::TYPE_CODE_128));
+
+        return view('pemesanans.users_invoice', compact('latestPemesanan', 'barcode'));
     }
     public function userpayment()
     {
@@ -137,11 +141,19 @@ class PemesananController extends Controller
             'tikets'
         ])->get();
 
+        // Mengambil data pemesanan dan mengelompokkan berdasarkan bulan
+        $pemesanan_per_bulan = $pemesanans->groupBy(function ($item) {
+            return $item->created_at->format('Y-m'); // Format Year-Month
+        })->map(function ($group) {
+            return $group->sum('total_harga'); // Total bayar per bulan
+        });
+
+
         $breadcrumbs = [
             ['name' => 'Home', 'url' => route('admin.dashboard')],
             ['name' => 'Kelola Pemesanan', 'url' => route('pemesanans.index')],
         ];
-        return view('pemesanans.index', compact('pemesanans', 'breadcrumbs'));
+        return view('pemesanans.index', compact('pemesanans', 'pemesanan_per_bulan', 'breadcrumbs'));
     }
 
     public function create()
@@ -273,60 +285,74 @@ class PemesananController extends Controller
 
     public function update(Request $request, Pemesanan $pemesanan)
     {
+        // Validasi umum untuk fields lainnya
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'jadwal_id' => 'required|exists:jadwals,id',
-            'no_kursi' => 'required|array|min:1',
             'payment_method' => 'required|string',
         ]);
 
-        // Ambil nomor kursi dari request
-        $noKursi = $request->no_kursi;
+        // Cek apakah ada perubahan pada no_kursi (jika tidak ada, abaikan validasi no_kursi)
+        $noKursi = $request->no_kursi ?? [];
 
-        // Validasi apakah kursi yang dipilih masih tersedia
-        $invalidSeats = Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
-            ->whereIn(DB::raw('SUBSTRING(kode_tiket, -2)'), $noKursi)
-            ->where('jadwal_id', $request->jadwal_id)
-            ->where('status', 'unavailable')
-            ->exists();
+        // Jika ada perubahan pada no_kursi, lakukan validasi
+        if (!empty($noKursi)) {
+            $request->validate([
+                'no_kursi' => 'required|array|min:1',
+            ]);
 
-        if ($invalidSeats) {
-            return redirect()->back()->withErrors(['no_kursi' => 'Salah satu nomor kursi yang dipilih sudah tidak tersedia.']);
+            // Validasi apakah kursi yang dipilih masih tersedia
+            $invalidSeats = Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
+                ->whereIn(DB::raw('SUBSTRING(kode_tiket, -2)'), $noKursi)
+                ->where('jadwal_id', $request->jadwal_id)
+                ->where('status', 'unavailable')
+                ->exists();
+
+            if ($invalidSeats) {
+                return redirect()->back()->withErrors(['no_kursi' => 'Salah satu nomor kursi yang dipilih sudah tidak tersedia.']);
+            }
         }
 
-        // Ubah status tiket lama menjadi "available"
-        foreach ($pemesanan->tikets as $tiket) {
-            $tiket->update(['status' => 'available']);
+        // Jika no_kursi tidak diubah, maka $noKursi akan kosong dan tidak melakukan perubahan status kursi
+        if (!empty($noKursi)) {
+            // Ubah status tiket lama menjadi "available"
+            foreach ($pemesanan->tikets as $tiket) {
+                $tiket->update(['status' => 'available']);
+            }
+
+            // Tandai tiket baru sebagai "unavailable"
+            Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
+                ->whereIn(DB::raw('SUBSTRING(kode_tiket, -2)'), $noKursi)
+                ->update(['status' => 'unavailable']);
         }
 
-        // Tandai tiket baru sebagai "unavailable"
-        Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
-            ->whereIn(DB::raw('SUBSTRING(kode_tiket, -2)'), $noKursi)
-            ->update(['status' => 'unavailable']);
-
-        // Update pemesanan
+        // Update pemesanan tanpa mengubah kursi jika no_kursi tidak dikirimkan
         $pemesanan->update([
             'user_id' => $request->user_id,
             'jadwal_id' => $request->jadwal_id,
-            'jumlah_tiket' => count($noKursi),
-            'total_harga' => Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)->first()->harga * count($noKursi),
+            'jumlah_tiket' => !empty($noKursi) ? count($noKursi) : $pemesanan->jumlah_tiket,  // Hanya hitung jumlah tiket jika ada perubahan kursi
+            'total_harga' => Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
+                ->first()->harga * (count($noKursi) > 0 ? count($noKursi) : $pemesanan->jumlah_tiket),  // Total harga dihitung berdasarkan kursi yang dipilih
             'payment_method' => $request->payment_method,
         ]);
 
-        // Perbarui hubungan antara tiket dan pemesanan
-        $pemesanan->tikets()->detach(); // Hapus semua relasi tiket sebelumnya
-        foreach ($noKursi as $kursi) {
-            $tiket = Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
-                ->where(DB::raw('SUBSTRING(kode_tiket, -2)'), $kursi)
-                ->first();
+        // Perbarui hubungan antara tiket dan pemesanan jika ada perubahan kursi
+        if (!empty($noKursi)) {
+            $pemesanan->tikets()->detach(); // Hapus semua relasi tiket sebelumnya
+            foreach ($noKursi as $kursi) {
+                $tiket = Tiket::where('kelas_tiket', $pemesanan->tikets->first()->kelas_tiket ?? null)
+                    ->where(DB::raw('SUBSTRING(kode_tiket, -2)'), $kursi)
+                    ->first();
 
-            if ($tiket) {
-                $pemesanan->tikets()->attach($tiket->id);
+                if ($tiket) {
+                    $pemesanan->tikets()->attach($tiket->id);
+                }
             }
         }
 
         return redirect()->route('pemesanans.index')->with('success', 'Pemesanan berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {

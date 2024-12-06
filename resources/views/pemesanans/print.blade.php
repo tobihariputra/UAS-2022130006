@@ -75,15 +75,23 @@
         <div class="ticket-header">
             <h1>Boarding Pass</h1>
             <p>Tanggal Pemesanan : {{ $pemesanan->created_at->format('d-m-Y') }}</p>
-            <div class="qrcode">
-                <img src="data:image/png;base64,{{ $barcode }}" alt="Barcode" />
-                <p style=" font-weight: bold; font-size: 20px">
-                    {{ $pemesanan->kode_pemesanan }}
+            <div class="qrcode" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="data:image/png;base64,{{ $barcode }}" alt="Barcode" style="max-height: 50px;" />
+                    <p style="font-weight: bold; font-size: 20px; margin-top: 10px;">
+                        {{ $pemesanan->kode_pemesanan }}
+                    </p>
+                </div>
+                <p style="font-weight: bold; font-size: 20px; margin: 0; text-align: right;">
+                    {{ $pemesanan->jadwal->rute->nama_rute }}
                 </p>
             </div>
         </div>
 
-        <div class="ticket-detail"> 
+
+
+
+        <div class="ticket-detail">
             <table>
                 <tr>
                     <th>Email Pelanggan</th>
@@ -114,7 +122,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>No Kursi</th>
+                    <th>Nomor Kursi</th>
                     <th>Jumlah Tiket</th>
                 </tr>
                 <tr>

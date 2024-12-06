@@ -11,7 +11,7 @@
             <!-- Pilih Jadwal -->
             <div class="form-group mb-3">
                 <label for="jadwal_id">Jadwal</label>
-                <select name="jadwal_id" id="jadwal_id" class="form-control" required>
+                <select name="jadwal_id" id="jadwal_id" class="form-control" required disabled>
                     <option value="">-- Pilih Jadwal --</option>
                     @foreach ($jadwals as $jadwal)
                         <option value="{{ $jadwal->id }}" {{ $tiket->jadwal_id == $jadwal->id ? 'selected' : '' }}>
@@ -19,13 +19,15 @@
                         </option>
                     @endforeach
                 </select>
+                <!-- Hidden input for jadwal_id -->
+                <input type="hidden" name="jadwal_id" value="{{ $tiket->jadwal_id }}">
             </div>
 
             <!-- Kode Tiket -->
             <div class="form-group mb-3">
                 <label for="kode_tiket">Kode Tiket</label>
                 <input type="text" name="kode_tiket" id="kode_tiket" class="form-control"
-                    value="{{ $tiket->kode_tiket }}" readonly>
+                    value="{{ $tiket->kode_tiket }}" readonly style="background-color: #f0f0f0;">
             </div>
 
             <!-- Pilih Kelas Tiket -->

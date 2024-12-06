@@ -6,8 +6,13 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
     <div class="container shadow p-4" style="background-color: #f9f9f9; border-radius: 10px;">
-        <h1>Kelola Pengguna</h1>
-        <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Tambah Pengguna</a>
+        <div class="d-flex justify-content-between align-items-center mx-2">
+            <h1>Kelola Pengguna</h1>
+            <a href="{{ route('users.create') }}" class="btn btn-success">
+                <i class="bi bi-person-plus-fill"></i> &nbsp;Tambah Pengguna
+            </a>
+        </div>
+
 
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
@@ -34,13 +39,16 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ ucfirst($user->role) }}</td>
                                 <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST"
                                         style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                            onclick="return confirm('Yakin ingin menghapus?')"><i
+                                                class="bi bi-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

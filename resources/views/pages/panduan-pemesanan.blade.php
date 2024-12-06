@@ -2,7 +2,6 @@
 
 @section('content')
     <style>
-        /* General Styling */
         .content h2 {
             font-weight: bold;
             margin-bottom: 15px;
@@ -43,7 +42,6 @@
             color: #e74c3c;
         }
 
-        /* Responsive Styling */
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.5rem;
@@ -84,7 +82,7 @@
     <div id="ticket-guide" class="container" style="margin-top: 8%; padding: 20px;">
         <div class="card">
             <div class="card-body">
-                <h1 class="text-center font-weight-bold">Panduan Pemesanan Tiket Kereta</h1>
+                <h1 class="text-center fw-bold">PANDUAN PEMESANAN TIKET KERETA</h1>
                 <p class="text-center text-muted mb-5">Ikuti langkah-langkah berikut untuk memesan tiket kereta dengan mudah.
                 </p>
 

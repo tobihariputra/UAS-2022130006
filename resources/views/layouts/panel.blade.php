@@ -10,6 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
         rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
@@ -160,6 +163,7 @@
 
     <div class="sidebar" id="sidebar">
         <h1 class="text-center mt-4">Admin Panel</h1>
+        <hr style="background-color: #FFF;height: 3px;">
         <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin') ? 'active' : '' }}">
             <i class="bi bi-house-door icon"></i> Dashboard Admin
         </a>
@@ -208,7 +212,8 @@
                     @foreach ($breadcrumbs ?? [] as $breadcrumb)
                         @if (!empty($breadcrumb['url']) && !$loop->last)
                             <li class="breadcrumb-item">
-                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
+                                <a class="text-decoration-none fw-bold"
+                                    href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a>
                             </li>
                         @else
                             <li class="breadcrumb-item active" aria-current="page">{{ $breadcrumb['name'] }}</li>
@@ -224,7 +229,7 @@
 
     <footer id="footer" class="footer">
         <div class="credits">
-            Built by <a href="https://github.com/tobihariputra">Tobi Hariputra</a>
+            Built by <a class="text-decoration-none fw-bold" href="https://github.com/tobihariputra">Tobi Hariputra</a>
         </div>
     </footer>
 

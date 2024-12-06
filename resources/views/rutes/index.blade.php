@@ -6,9 +6,11 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.min.js"></script>
     <div class="container shadow p-4" style="background-color: #f9f9f9; border-radius: 10px;">
-        <h1>Kelola Rute</h1>
-        <a href="{{ route('rutes.create') }}" class="btn btn-primary mb-3">Tambah Rute</a>
-
+        <div class="d-flex justify-content-between align-items-center mx-2">
+            <h1>Kelola Rute</h1>
+            <a href="{{ route('rutes.create') }}" class="btn btn-success">
+                <i class="bi bi-signpost-split"></i> &nbsp;Tambah Rute</a>
+        </div>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
                 {{ session('success') }}
@@ -34,13 +36,16 @@
                                 <td>{{ $rute->stasiunAsal->nama_stasiun }}</td>
                                 <td>{{ $rute->stasiunTujuan->nama_stasiun }}</td>
                                 <td>
-                                    <a href="{{ route('rutes.edit', $rute->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ route('rutes.edit', $rute->id) }}" class="btn btn-primary btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
                                     <form action="{{ route('rutes.destroy', $rute->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i
+                                                class="bi bi-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
